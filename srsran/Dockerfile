@@ -38,9 +38,19 @@ RUN add-apt-repository ppa:ettusresearch/uhd && \
     apt update && apt -y install libuhd-dev uhd-host && \
     uhd_images_downloader
 
+# SoapySDR drivers and UHD plugin
+RUN add-apt-repository ppa:myriadrf/drivers && \
+    add-apt-repository ppa:pothosware/framework && \
+    add-apt-repository ppa:pothosware/support && \
+    sed -i 's/jammy/focal/g' /etc/apt/sources.list.d/myriadrf-ubuntu-drivers-jammy.list \
+    /etc/apt/sources.list.d/pothosware-ubuntu-framework-jammy.list \
+    /etc/apt/sources.list.d/pothosware-ubuntu-support-jammy.list && \
+    apt update && apt -y install uhd-soapysdr soapysdr-tools soapysdr0.8-module-lms7 \
+    limesuite liblimesuite-dev limesuite-udev limesuite-images
+
 # Get srsRAN_Project, compile and install
-RUN git clone https://github.com/srsran/srsRAN_Project.git && \
-    cd srsRAN_Project && git checkout 4ac5300d4927b5199af69e6bc2e55d061fc33652 && \
+RUN git clone https://github.com/Rashed97/srsRAN_Project.git -b limesdr-support && \
+    cd srsRAN_Project && git status && \
     mkdir build && cd build && \
     cmake ../ -DENABLE_EXPORT=ON -DENABLE_ZEROMQ=ON && make -j`nproc` && make install && \
     ldconfig
