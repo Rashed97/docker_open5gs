@@ -19,7 +19,7 @@ cell_cfg:
 #  common_scs: 15                                                  # Subcarrier spacing in kHz used for data.
   dl_arfcn: 368500                                                # ARFCN of the downlink carrier (center frequency).
   band: 3                                                         # The NR band.
-  channel_bandwidth_MHz: 15                                       # Bandwith in MHz. Number of PRBs will be automatically derived.
+  channel_bandwidth_MHz: 20                                       # Bandwith in MHz. Number of PRBs will be automatically derived.
   common_scs: 15                                                  # Subcarrier spacing in kHz used for data.
   plmn: "PLMN"                                                    # PLMN broadcasted by the gNB.
   tac: 1                                                          # Tracking area code (needs to match the core configuration).
