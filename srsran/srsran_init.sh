@@ -38,6 +38,9 @@ elif [[ "$COMPONENT_NAME" =~ ^(gnb$) ]]; then
 elif [[ "$COMPONENT_NAME" =~ ^(gnb_zmq$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
 	cp /mnt/srsran/gnb_zmq.yml /etc/srsran/gnb.yml
+elif [[ "$COMPONENT_NAME" =~ ^(gnb_soapy$) ]]; then
+	echo "Configuring component: '$COMPONENT_NAME'"
+	cp /mnt/srsran/gnb_soapy.yml /etc/srsran/gnb.yml
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi
