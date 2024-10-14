@@ -11,6 +11,7 @@ ru_sdr:
   otw_format: sc16
   tx_gain: 64                                                   # Transmit gain of the RF might need to adjusted to the given situation.
   rx_gain: 60                                                   # Receive gain of the RF might need to adjusted to the given situation.
+  clock: unsupported                                            # Specify the RF device clock source (i.e., 10MHz reference oscillator). Supported: [default, internal, external, gpsdo].
 
 cell_cfg:
   dl_arfcn: 368500                                                # ARFCN of the downlink carrier (center frequency).
