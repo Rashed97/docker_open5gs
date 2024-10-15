@@ -7,7 +7,7 @@ ru_sdr:
   device_args: type=b200,num_recv_frames=64,num_send_frames=64  # Optionally pass arguments to the selected RF driver.
   clock:                                                        # Specify the clock source used by the RF.
   sync:                                                         # Specify the sync source used by the RF.
-  srate: 23.04                                                  # RF sample rate might need to be adjusted according to selected bandwidth.
+  srate: 46.08                                                  # RF sample rate might need to be adjusted according to selected bandwidth.
   otw_format: sc12
   tx_gain: 80                                                   # Transmit gain of the RF might need to adjusted to the given situation.
   rx_gain: 40                                                   # Receive gain of the RF might need to adjusted to the given situation.
@@ -15,7 +15,7 @@ ru_sdr:
 cell_cfg:
   dl_arfcn: 632628                                                # ARFCN of the downlink carrier (center frequency).
   band: 78                                                        # The NR band.
-  channel_bandwidth_MHz: 20                                       # Bandwith in MHz. Number of PRBs will be automatically derived.
+  channel_bandwidth_MHz: 40                                       # Bandwith in MHz. Number of PRBs will be automatically derived.
   common_scs: 30                                                  # Subcarrier spacing in kHz used for data.
   plmn: "PLMN"                                                    # PLMN broadcasted by the gNB.
   tac: 1                                                          # Tracking area code (needs to match the core configuration).
