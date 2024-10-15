@@ -1,16 +1,24 @@
-amf:
-  addr: AMF_IP                                                    # The address or hostname of the AMF.
-  bind_addr: SRS_GNB_IP                                           # A local IP that the gNB binds to for traffic from the AMF.
+cu_cp:
+  amf:
+    addr: AMF_IP                                                  # The address or hostname of the AMF.
+    port: 38412                                                   # Sets the AMF port.
+    bind_addr: SRS_GNB_IP                                         # A local IP that the gNB binds to for traffic from the AMF.
+    supported_tracking_areas:                                     # Sets the list of tracking areas supported by this AMF.
+      - tac: 1                                                    # Sets the Tracking Area Code.
+        plmn_list:                                                # Sets the list of PLMN items supported for this Tracking Area.
+          - plmn: "PLMN"                                          # Sets the Public Land Mobile Network code.
+            tai_slice_support_list:                               # Sets the list of TAI slices for this PLMN item.
+              - sst: 1                                            # Sets the Slice Service Type.
 
 ru_sdr:
-  device_driver: uhd                                            # The RF driver name.
-  device_args: type=b200,num_recv_frames=64,num_send_frames=64  # Optionally pass arguments to the selected RF driver.
-  clock:                                                        # Specify the clock source used by the RF.
-  sync:                                                         # Specify the sync source used by the RF.
-  srate: 46.08                                                  # RF sample rate might need to be adjusted according to selected bandwidth.
-  otw_format: sc12
-  tx_gain: 80                                                   # Transmit gain of the RF might need to adjusted to the given situation.
-  rx_gain: 40                                                   # Receive gain of the RF might need to adjusted to the given situation.
+  device_driver: uhd                                              # The RF driver name.
+  device_args: type=b200,num_recv_frames=64,num_send_frames=64    # Optionally pass arguments to the selected RF driver.
+  clock:                                                          # Specify the clock source used by the RF.
+  sync:                                                           # Specify the sync source used by the RF.
+  srate: 46.08                                                    # RF sample rate might need to be adjusted according to selected bandwidth.
+  otw_format: sc12                                                # Specify the over-the-wire format.
+  tx_gain: 80                                                     # Transmit gain of the RF might need to adjusted to the given situation.
+  rx_gain: 40                                                     # Receive gain of the RF might need to adjusted to the given situation.
 
 cell_cfg:
   dl_arfcn: 632628                                                # ARFCN of the downlink carrier (center frequency).
