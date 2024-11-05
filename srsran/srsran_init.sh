@@ -41,10 +41,18 @@ elif [[ "$COMPONENT_NAME" =~ ^(gnb_zmq$) ]]; then
 elif [[ "$COMPONENT_NAME" =~ ^(gnb_soapy$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
 	cp /mnt/srsran/gnb_soapy.yml /etc/srsran/gnb.yml
+elif [[ "$COMPONENT_NAME" =~ ^(gnb_b220_mimo$) ]]; then
+	echo "Configuring component: '$COMPONENT_NAME'"
+	cp /mnt/srsran/gnb.yml /etc/srsran/gnb.yml
+	cp /mnt/srsran/gnb_b220_mimo.yml /etc/srsran/gnb_b220_mimo.yml
+	cp /mnt/srsran/usrp_b220_fpga.bin /usr/share/uhd/images/usrp_b210_fpga.bin
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi
 
+cp /mnt/srsran/low_latency.yml /etc/srsran/low_latency.yml
+cp /mnt/srsran/mimo_usrp.yml /etc/srsran/mimo_usrp.yml
+cp /mnt/srsran/qam256.yml /etc/srsran/qam256.yml
 cp /mnt/srsran/qos.yml /etc/srsran/qos.yml
 
 sed -i 's|PLMN|'$MCC''$MNC'|g' /etc/srsran/gnb.yml
@@ -55,7 +63,15 @@ sed -i 's|SRS_UE_IP|'$SRS_UE_IP'|g' /etc/srsran/gnb.yml
 # For dbus not started issue when host machine is running Ubuntu 22.04
 service dbus start && service avahi-daemon start
 
-gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml
+extra_args=""
+if [[ "$COMPONENT_NAME" =~ ^(gnb_b220_mimo$) ]]; then
+	extra_args+=" -c /etc/srsran/gnb_b220_mimo.yml"
+	extra_args+=" -c /etc/srsran/mimo_usrp.yml"
+	extra_args+=" -c /etc/srsran/qam256.yml"
+	extra_args+=" -c /etc/srsran/low_latency.yml"
+fi
+
+gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml $extra_args
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
