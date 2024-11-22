@@ -31,28 +31,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install updates and dependencies
 RUN apt-get update && \
     apt-get -y install cmake make gcc g++ pkg-config libfftw3-dev libmbedtls-dev libsctp-dev libyaml-cpp-dev libgtest-dev \
-    libzmq3-dev software-properties-common pkg-config net-tools iputils-ping git
+    libzmq3-dev software-properties-common pkg-config net-tools iputils-ping git git-lfs
 
 # UHD drivers for USRP
 RUN add-apt-repository ppa:ettusresearch/uhd && \
     apt update && apt -y install libuhd-dev uhd-host && \
     uhd_images_downloader
 
-# SoapySDR drivers and UHD plugin
-RUN add-apt-repository ppa:myriadrf/drivers && \
-    add-apt-repository ppa:pothosware/framework && \
-    add-apt-repository ppa:pothosware/support && \
-    sed -i 's/jammy/focal/g' /etc/apt/sources.list.d/myriadrf-ubuntu-drivers-jammy.list \
-    /etc/apt/sources.list.d/pothosware-ubuntu-framework-jammy.list \
-    /etc/apt/sources.list.d/pothosware-ubuntu-support-jammy.list && \
-    apt update && apt -y install uhd-soapysdr soapysdr-tools soapysdr0.8-module-lms7 \
-    limesuite liblimesuite-dev limesuite-udev limesuite-images
-
 # Get srsRAN_Project, compile and install
-RUN git clone https://github.com/Rashed97/srsRAN_Project.git -b limesdr-support && \
+RUN GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/srsran/srsRAN_Project.git -b test && \
     cd srsRAN_Project && git status && \
     mkdir build && cd build && \
-    cmake ../ -DENABLE_EXPORT=ON -DENABLE_ZEROMQ=ON && make -j`nproc` && make install && \
+    cmake ../ -DUSE_PHY_TESTVECTORS=OFF -DENABLE_EXPORT=ON -DENABLE_ZEROMQ=ON && make -j`nproc` && make install && \
     ldconfig
 
 ENV UHD_IMAGES_DIR=/usr/share/uhd/images/
