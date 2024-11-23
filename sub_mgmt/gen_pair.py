@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # BSD 2-Clause License
 
 # Copyright (c) 2024, Rashed Abdel-Tawab
@@ -26,4 +27,11 @@
 
 # This script will produce Ki/eKi/OPc triplets given the Operator and Transport keys.
 
-kiopcgen -o 74e2fe5c673bd5f141ffad0f12320430 -t 29de2cc486338bee009d429ecebdfe69
+import pprint
+import uuid
+import kiopcgenerator
+
+op = "74E2FE5C673BD5F141FFAD0F12320430"
+transport = "29DE2CC486338BEE009D429ECEBDFE69"
+ki = kiopcgenerator.gen_ki() # Generates random ki
+print (kiopcgenerator.gen_opc_eki(op, transport, ki))
