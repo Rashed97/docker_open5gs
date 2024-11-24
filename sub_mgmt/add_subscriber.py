@@ -30,6 +30,8 @@ import subprocess
 import requests
 import socket
 
+import Open5GS
+
 from osmopy.osmo_ipa import Ctrl
 
 # OsmoCtrlClient class handles the socket connection to OsmoHLR's CTRL interface.
@@ -82,18 +84,155 @@ class OsmoCtrlClient(Ctrl):
             return True
         return False
 
-def add_to_open5gs(imsi, ki, opc):
+def add_to_open5gs(mongodb_address, imsi, ki, opc):
     """
-    Add subscriber to Open5GS HSS using the open5gs-dbctl tool.
+    Add subscriber to Open5GS HSS using the Open5GS PyMongo library.
     """
-    try:
-        subprocess.run(
-            ["docker", "exec", "-it", "hss", "misc/db/open5gs-dbctl", "add", imsi, ki, opc],
-            check=True
-        )
-        print("Subscriber added to Open5GS HSS successfully.")
+    Open5GS_1 = Open5GS(mongodb_address, 27017)
 
-    except subprocess.CalledProcessError as e:
+    slice_data = [
+        {
+            "sst": 1,
+            "default_indicator": True,
+            "session": [
+                {
+                    "name": "internet",
+                    "type": 3,
+                    "pcc_rule": [],
+                    "ambr": {
+                        "uplink": {
+                            "value": 1,
+                            "unit": 3
+                        },
+                        "downlink": {
+                            "value": 1,
+                            "unit": 3
+                        }
+                    },
+                    "qos": {
+                        "index": 9,
+                        "arp": {
+                            "priority_level": 8,
+                            "pre_emption_capability": 1,
+                            "pre_emption_vulnerability": 1
+                        }
+                    }
+                },
+                {
+                    "name": "ims",
+                    "type": 3,
+                    "ambr": {
+                        "uplink": {
+                            "value": 1,
+                            "unit": 3
+                        },
+                        "downlink": {
+                            "value": 1,
+                            "unit": 3
+                        }
+                    },
+                    "qos": {
+                        "index": 5,
+                        "arp": {
+                            "priority_level": 1,
+                            "pre_emption_capability": 1,
+                            "pre_emption_vulnerability": 1
+                        }
+                    },
+                    "pcc_rule": [
+                        {
+                            "qos": {
+                                "index": 1,
+                                "arp": {
+                                    "priority_level": 2,
+                                    "pre_emption_capability": 2,
+                                    "pre_emption_vulnerability": 2
+                                },
+                                "mbr": {
+                                    "downlink": {
+                                        "unit": 1
+                                    },
+                                    "uplink": {
+                                        "unit": 1
+                                    }
+                                },
+                                "gbr": {
+                                    "downlink": {
+                                        "unit": 1
+                                    },
+                                    "uplink": {
+                                        "unit": 1
+                                    }
+                                }
+                            },
+                            "flow": []
+                        },
+                        {
+                            "qos": {
+                                "index": 2,
+                                "arp": {
+                                    "priority_level": 4,
+                                    "pre_emption_capability": 2,
+                                    "pre_emption_vulnerability": 2
+                                },
+                                "mbr": {
+                                    "downlink": {
+                                        "unit": 1
+                                    },
+                                    "uplink": {
+                                        "unit": 1
+                                    }
+                                },
+                                "gbr": {
+                                    "downlink": {
+                                        "unit": 1
+                                    },
+                                    "uplink": {
+                                        "unit": 1
+                                    }
+                                }
+                            },
+                            "flow": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+
+    sub_data = {
+        "imsi": imsi,
+        "subscribed_rau_tau_timer": 12,
+        "network_access_mode": 0,
+        "subscriber_status": 0,
+        "operator_determined_barring": 0,
+        "access_restriction_data": 32,
+        "slice" : slice_data,
+        "ambr": {
+            "uplink": {
+                "value": 1,
+                "unit": 3
+            },
+            "downlink": {
+                "value": 1,
+                "unit": 3
+            }
+        },
+        "security": {
+            "k": ki,
+            "amf": "8000",
+            'op': None,
+            "opc": opc
+        },
+        "schema_version": 1,
+        "__v": 0
+    }
+
+    try:
+        response = Open5GS_1.AddSubscriber(sub_data)
+        print("Subscriber added to Open5GS HSS successfully with ID " + response + ".")
+
+    except Exception as e:
         print(f"Failed to add subscriber to Open5GS HSS: {e}")
 
 def format_pyhss_url(api_base_url):
@@ -247,6 +386,7 @@ def main():
     parser.add_argument("-k", "--ki", required=True, help="The authentication key (Ki) value of the subscriber's UICC")
     parser.add_argument("-o", "--opc", required=True, help="The Operator Code (OPc) value of the subscriber's UICC")
     parser.add_argument("-m", "--msisdn", required=True, help="The MSISDN for the subscriber (with '+' prefix)")
+    parser.add_argument("--mongodb-url", required=True, help="The Open5GS MongoDB URL (FQDN or IP address)")
     parser.add_argument("--pyhss-url", required=True, help="The PyHSS API base URL (FQDN or IP address)")
     parser.add_argument("--osmohlr-ctrl-host", required=True, help="The OsmoHLR CTRL interface host")
     parser.add_argument("--skip-core-hss", required=False, action='store_true', help="Skip adding the subscriber to the EPC/5GC HSS")
@@ -265,7 +405,7 @@ def main():
 
     # Add subscriber to Open5GS if not skipping core HSS
     if not args.skip_core_hss:
-        add_to_open5gs(args.imsi, args.ki, args.opc)
+        add_to_open5gs(args.mongodb_url, args.imsi, args.ki, args.opc)
 
     # Add subscriber to PyHSS if not skipping
     if not args.skip_pyhss and auc_id:

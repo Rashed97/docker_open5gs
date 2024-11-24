@@ -12,14 +12,15 @@ Several issues are still present with the Docker container:
 
 ### Install Pre-requisites
 
-Install required packages:
+Install required packages (replace xUbuntu_24.04 with your distribution and version):
 
 ```
+export OSMOCOM_REPO="https://downloads.osmocom.org/packages/osmocom:/latest/xUbuntu_24.04"
 wget $OSMOCOM_REPO/Release.key && sudo mv Release.key /etc/apt/trusted.gpg.d/osmocom-latest.asc
 sudo echo "deb [signed-by=/etc/apt/trusted.gpg.d/osmocom-latest.asc] $OSMOCOM_REPO/ ./" > /etc/apt/sources.list.d/osmocom-latest.list
 sudo apt update
-sudo apt install python3-dev osmo-python-tests
-````
+sudo apt install python3-dev python3-osmopy-utils python3-pymongo python3-bson
+```
 
 Install Ki/OPc Generator:
 
@@ -104,9 +105,3 @@ Your actual command will look something like this:
 ```
 ./add_subscriber.py -i 001010000116332 -k D79F9B3430124778B25BCCBC6CED8C8F -o 34077031C9AF38D7ECB6FD6AC4B1BCFB --msisdn "+11012026332" --pyhss-url localhost --osmohlr-ctrl-host localhost
 ```
-
-## Modifying APNs for Subscribers
-
-TODO: this can will be automated in the scripts
-
-After you add the subscriber to all the databases, you must adjust the APNs in the Open5GS UI to set the Quality-of-service (QoS) configuration for the devices to be able to access IMS over 5G. This is a requirement for IMS on 5G and the configuration for the network must match the configuration on the RAN that is provided to the device.
