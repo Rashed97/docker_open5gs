@@ -1,0 +1,28 @@
+expert_execution:
+  cell_affinities:                      # Optional TEXT. Sets the cell CPU affinities configuration on a per cell basis. Entry order is the same as the order in the defined cell list.
+    -
+      l1_dl_cpus: 0-3                          # Optional TEXT. Sets the CPU core(s) assigned to L1 downlink tasks. Supported: [1, 2, 3 , ..., N]. Where N is the number of total cores available.
+      l1_ul_cpus: 4-7                          # Optional TEXT. Sets the CPU core(s) assigned to L1 uplink tasks. Supported: [1, 2, 3 , ..., N].
+      l1_dl_pinning:                        # Optional TEXT. Sets the policy used for assigning CPU cores to L1 downlink tasks.
+      l1_ul_pinning:                        # Optional TEXT. Sets the policy used for assigning CPU cores to L1 uplink tasks.
+      l2_cell_cpus: 8-11                        # Optional TEXT. Sets the CPU core(s) assigned to L2 cells tasks. Supported: [1, 2, 3 , ..., N].
+      l2_cell_pinning:                      # Optional TEXT. Sets the policy used for assigning CPU cores to L2 cell tasks.
+      ru_cpus: 12-15                             # Optional TEXT. Sets the CPU core(s) used for the Radio Unit tasks. Supported: [1, 2, 3 , ..., N].
+      ru_pinning:                           # Optional TEXT. Sets the policy used for assigning CPU cores to Radio Unity tasks.
+  affinities:
+    isolated_cpus: #0-31                        # Optional TEXT. Sets the CPU core(s) isolated for the gNB application. Supported: [1, 2, 3 , ..., N].
+    low_priority_cpus:                    # Optional TEXT. Sets the CPU core(s) assigned to low priority tasks. Supported: [1, 2, 3 , ..., N].
+    low_priority_pinning:                 # Optional TEXT. Sets the policy used for assigning CPU cores to low priority tasks.   
+    ru_timing_cpu:                        # Optional TEXT. Sets the CPU used for timing in the Radio Unity.
+    ofh:                                  # Optional TEXT Sets the CPU affinities configuration for RU cells tx-rx threads. Number of entries specified defines the number of tx-rx threads created. By default if no entries are specified, the number of tx-rx threads equals the number of RU cells.
+  threads:
+    non_rt:
+      nof_non_rt_threads: 8
+    upper_phy:
+      nof_pusch_decoder_threads: 8
+      nof_ul_threads: 2
+      nof_dl_threads: 8
+    lower_phy:
+      execution_profile: quad
+    ofh:
+      enable_dl_parallelization: true
