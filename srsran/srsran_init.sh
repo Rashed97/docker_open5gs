@@ -71,6 +71,15 @@ if [[ "$COMPONENT_NAME" =~ ^(gnb_b220_mimo$) ]]; then
 	extra_args+=" -c /etc/srsran/low_latency.yml"
 fi
 
+# CPU parameters for host config
+cp /mnt/srsran/host-configs/*-host.yml /etc/srsran/
+cpumodel=$(lscpu | grep "Model name" | sed -E 's/.*(Intel\(R\) [^ ]+ |AMD [^ ]+ [^ ]+ )([^ ]+) .*/\2/' | head -n 1)
+echo "Searching for host config for $cpumodel"
+if [[ -e "/etc/srsran/$cpumodel-host.yml" ]]; then
+	echo "Found host config for $cpumodel"
+	extra_args+=" -c /etc/srsran/$cpumodel-host.yml"
+fi
+
 gnb -c /etc/srsran/gnb.yml -c /etc/srsran/qos.yml $extra_args
 
 # Sync docker time
