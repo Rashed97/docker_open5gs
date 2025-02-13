@@ -510,6 +510,9 @@ services:
       - "8080/tcp"
     ports:
       - "8080:8080/tcp"
+      - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/sctp"
+      - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/tcp"
+      - "${PYHSS_BIND_PORT}:${PYHSS_BIND_PORT}/udp"
     networks:
       default:
         ipv4_address: ${PYHSS_IP}
