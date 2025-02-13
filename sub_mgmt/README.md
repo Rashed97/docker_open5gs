@@ -19,7 +19,7 @@ export OSMOCOM_REPO="https://downloads.osmocom.org/packages/osmocom:/latest/xUbu
 wget $OSMOCOM_REPO/Release.key && sudo mv Release.key /etc/apt/trusted.gpg.d/osmocom-latest.asc
 sudo echo "deb [signed-by=/etc/apt/trusted.gpg.d/osmocom-latest.asc] $OSMOCOM_REPO/ ./" > /etc/apt/sources.list.d/osmocom-latest.list
 sudo apt update
-sudo apt install python3-dev python3-osmopy-utils python3-pymongo python3-bson
+sudo apt install python3-dev python3-osmopy-utils python3-pymongo python3-bson python3-pycryptodome python3-cmd2
 ```
 
 Install Ki/OPc Generator:
@@ -32,6 +32,15 @@ Sync pySim to this directory:
 
 ```
 git clone https://gitea.osmocom.org/sim-card/pysim.git
+cd pysim
+sudo apt install --no-install-recommends \
+	pcscd libpcsclite-dev \
+	python3 \
+	python3-setuptools \
+	python3-pycryptodome \
+	python3-pyscard \
+	python3-pip
+pip3 install --user -r requirements.txt
 ```
 
 ### Using the unified script
