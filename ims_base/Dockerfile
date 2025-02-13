@@ -39,7 +39,7 @@ RUN apt-get update && \
 # Fetch Kamailio code
 RUN mkdir -p /usr/local/src/ && cd /usr/local/src/ && \
 	git clone https://github.com/kamailio/kamailio && \
-	cd kamailio && git checkout 113ff4b080546a7cd7c06f1ebc1ba303e329b309
+	cd kamailio && git checkout 566eec1f6a035479619f6970c5386d501d5fce23
 
 # Build and Install Kamailio
 RUN cd /usr/local/src/kamailio && make cfg
