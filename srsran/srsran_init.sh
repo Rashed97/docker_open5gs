@@ -30,6 +30,8 @@ export IP_ADDR=$(awk 'END{print $1}' /etc/hosts)
 
 mkdir -p /etc/srsran
 
+cp /mnt/srsran/usrp_b220_fpga.bin /usr/share/uhd/images/usrp_b210_fpga.bin
+
 if [[ -z "$COMPONENT_NAME" ]]; then
 	echo "Error: COMPONENT_NAME environment variable not set"; exit 1;
 elif [[ "$COMPONENT_NAME" =~ ^(gnb$) ]]; then
@@ -45,7 +47,6 @@ elif [[ "$COMPONENT_NAME" =~ ^(gnb_b220_mimo$) ]]; then
 	echo "Configuring component: '$COMPONENT_NAME'"
 	cp /mnt/srsran/gnb.yml /etc/srsran/gnb.yml
 	cp /mnt/srsran/gnb_b220_mimo.yml /etc/srsran/gnb_b220_mimo.yml
-	cp /mnt/srsran/usrp_b220_fpga.bin /usr/share/uhd/images/usrp_b210_fpga.bin
 else
 	echo "Error: Invalid component name: '$COMPONENT_NAME'"
 fi
@@ -66,8 +67,8 @@ service dbus start && service avahi-daemon start
 extra_args=""
 if [[ "$COMPONENT_NAME" =~ ^(gnb_b220_mimo$) ]]; then
 	extra_args+=" -c /etc/srsran/gnb_b220_mimo.yml"
-	extra_args+=" -c /etc/srsran/mimo_usrp.yml"
-	extra_args+=" -c /etc/srsran/qam256.yml"
+#	extra_args+=" -c /etc/srsran/mimo_usrp.yml"
+#	extra_args+=" -c /etc/srsran/qam256.yml"
 	extra_args+=" -c /etc/srsran/low_latency.yml"
 fi
 

@@ -1,7 +1,7 @@
 ru_sdr:
   device_args: type=b200,serial=UMCIE28,num_recv_frames=64,num_send_frames=64    # Optionally pass arguments to the selected RF driver.
-  srate: 30.72                                                    # RF sample rate might need to be adjusted according to selected bandwidth.
+  srate: 23.04 #30.72                                                    # RF sample rate might need to be adjusted according to selected bandwidth.
 
 cell_cfg:
-  channel_bandwidth_MHz: 30                                       # Bandwith in MHz. Number of PRBs will be automatically derived.
+  channel_bandwidth_MHz: 20                                       # Bandwith in MHz. Number of PRBs will be automatically derived.
   common_scs: 30                                                  # Subcarrier spacing in kHz used for data.
