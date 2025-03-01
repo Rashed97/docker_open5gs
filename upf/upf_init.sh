@@ -35,11 +35,13 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 ip link delete ogstun
 ip link delete ogstun2
 
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun --ipv4_range $UE_IPV4_INTERNET --ipv6_range 2001:230:cafe::/48
-python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range $UE_IPV4_IMS --ipv6_range 2001:230:babe::/48 --nat_rule 'no'
+python3 /mnt/upf/tun_if.py --tun_ifname ogstun --ipv4_range $UE_IPV4_INTERNET --ipv6_range $UE_IPV6_INTERNET
+python3 /mnt/upf/tun_if.py --tun_ifname ogstun2 --ipv4_range $UE_IPV4_IMS --ipv6_range $UE_IPV6_IMS --nat_rule 'no'
 
 UE_IPV4_INTERNET_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
 UE_IPV4_IMS_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV4_IMS)
+UE_IPV6_INTERNET_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV6_INTERNET)
+UE_IPV6_IMS_TUN_IP=$(python3 /mnt/upf/ip_utils.py --ip_range $UE_IPV6_IMS)
 
 cp /mnt/upf/upf.yaml install/etc/open5gs
 sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/upf.yaml
@@ -48,6 +50,10 @@ sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open
 sed -i 's|UE_IPV4_INTERNET_SUBNET|'$UE_IPV4_INTERNET'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UE_IPV4_IMS_SUBNET|'$UE_IPV4_IMS'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_IPV6_INTERNET_TUN_IP|'$UE_IPV6_INTERNET_TUN_IP'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_IPV6_INTERNET_SUBNET|'$UE_IPV6_INTERNET'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_IPV6_IMS_TUN_IP|'$UE_IPV6_IMS_TUN_IP'|g' install/etc/open5gs/upf.yaml
+sed -i 's|UE_IPV6_IMS_SUBNET|'$UE_IPV6_IMS'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/upf.yaml
 

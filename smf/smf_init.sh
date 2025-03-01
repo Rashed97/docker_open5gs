@@ -35,6 +35,8 @@ export IF_NAME=$(ip r | awk '/default/ { print $5 }')
 
 UE_IPV4_INTERNET_TUN_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV4_INTERNET)
 UE_IPV4_IMS_TUN_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV4_IMS)
+UE_IPV6_INTERNET_TUN_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV6_INTERNET)
+UE_IPV6_IMS_TUN_IP=$(python3 /mnt/smf/ip_utils.py --ip_range $UE_IPV6_IMS)
 
 cp /mnt/smf/smf.yaml install/etc/open5gs
 if [[ ${DEPLOY_MODE} == 4G ]];
@@ -50,10 +52,16 @@ sed -i 's|NRF_IP|'$NRF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UPF_IP|'$UPF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|SMF_DNS1|'$SMF_DNS1'|g' install/etc/open5gs/smf.yaml
 sed -i 's|SMF_DNS2|'$SMF_DNS2'|g' install/etc/open5gs/smf.yaml
+sed -i 's|SMF_IPV6_DNS1|'$SMF_IPV6_DNS1'|g' install/etc/open5gs/smf.yaml
+sed -i 's|SMF_IPV6_DNS2|'$SMF_IPV6_DNS2'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UE_IPV4_INTERNET_SUBNET|'$UE_IPV4_INTERNET'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|UE_IPV4_IMS_SUBNET|'$UE_IPV4_IMS'|g' install/etc/open5gs/smf.yaml
+sed -i 's|UE_IPV6_INTERNET_TUN_IP|'$UE_IPV6_INTERNET_TUN_IP'|g' install/etc/open5gs/smf.yaml
+sed -i 's|UE_IPV6_INTERNET_SUBNET|'$UE_IPV6_INTERNET'|g' install/etc/open5gs/smf.yaml
+sed -i 's|UE_IPV6_IMS_TUN_IP|'$UE_IPV6_IMS_TUN_IP'|g' install/etc/open5gs/smf.yaml
+sed -i 's|UE_IPV6_IMS_SUBNET|'$UE_IPV6_IMS'|g' install/etc/open5gs/smf.yaml
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' install/etc/open5gs/smf.yaml
 sed -i 's|MAX_NUM_UE|'$MAX_NUM_UE'|g' install/etc/open5gs/smf.yaml
 sed -i 's|SMF_IP|'$SMF_IP'|g' install/etc/freeDiameter/smf.conf
