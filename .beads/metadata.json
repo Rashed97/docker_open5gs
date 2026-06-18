@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "docker_open5gs",
+  "project_id": "8aa70133-5672-49f8-9289-a1189fe4734e"
+}
