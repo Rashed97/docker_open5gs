@@ -79,6 +79,11 @@ fi
 # DEPLOY_MODE=ALL (or unset) keeps both WITH_RX and WITH_N5 defined;
 # route/policy_if.cfg then selects Rx or N5 per UE at runtime.
 
+if [[ ${ENABLE_MSRP} == true ]];
+then
+	sed -i 's|##!define WITH_MSRP\b|#!define WITH_MSRP|g' /etc/kamailio_pcscf/pcscf.cfg
+fi
+
 REGISTRATION_EXPIRES_ENV=3600
 
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/pcscf.cfg

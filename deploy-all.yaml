@@ -580,6 +580,7 @@ services:
     environment:
       - COMPONENT_NAME=pcscf
       - DEPLOY_MODE=ALL
+      - ENABLE_MSRP=true
     depends_on:
       - dns
       - mysql
@@ -591,6 +592,7 @@ services:
       - "${PCSCF_BIND_PORT}/sctp"
       - "5060/tcp"
       - "5060/udp"
+      - "2855/tcp"
       # - "5100-5120/tcp"
       # - "5100-5120/udp"
       # - "6100-6120/tcp"
