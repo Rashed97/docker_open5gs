@@ -71,13 +71,20 @@ if [[ ${DEPLOY_MODE} == 5G ]];
 then
     sed -i 's|#!define WITH_RX\b|##!define WITH_RX|g' /etc/kamailio_pcscf/pcscf.cfg
 	sed -i 's|##!define WITH_N5\b|#!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
+elif [[ ${DEPLOY_MODE} == 4G ]];
+then
+	# Rx only: disable N5 so no BSF/PCF lookups are ever attempted
+	sed -i 's|#!define WITH_N5\b|##!define WITH_N5|g' /etc/kamailio_pcscf/pcscf.cfg
 fi
+# DEPLOY_MODE=ALL (or unset) keeps both WITH_RX and WITH_N5 defined;
+# route/policy_if.cfg then selects Rx or N5 per UE at runtime.
 
 REGISTRATION_EXPIRES_ENV=3600
 
 sed -i 's|PCSCF_IP|'$PCSCF_IP'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|REGISTRATION_EXPIRES_ENV|'$REGISTRATION_EXPIRES_ENV'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|SCP_IP|'$SCP_IP'|g' /etc/kamailio_pcscf/pcscf.cfg
+sed -i 's|BSF_IP|'$BSF_IP'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|PCSCF_PUB_IP|'$PCSCF_PUB_IP'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/kamailio_pcscf/pcscf.cfg
 sed -i 's|EPC_DOMAIN|'$EPC_DOMAIN'|g' /etc/kamailio_pcscf/pcscf.cfg
