@@ -49,6 +49,7 @@ fi
 
 cp /mnt/pyhss/config.yaml ./
 cp /mnt/pyhss/default_ifc.xml ./
+cp /mnt/pyhss/rcs_ifc.xml ./
 cp /mnt/pyhss/default_sh_user_data.xml ./
 
 INSTALL_PREFIX="/pyhss"

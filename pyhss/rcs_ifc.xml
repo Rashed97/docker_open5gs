@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This is the default iFC template used by PyHSS, variables come from the Jinja2 template passed inside diameter.py where you can additional variables if required -->
+<!--
+  rcs_ifc.xml : copy of default_ifc.xml with InitialFilterCriteria added to
+  route RCS traffic to the OpenRCS Application Servers.
+
+    Presence AS : sip:172.22.0.99:5060  (Presence Server / XDMS / RLS)
+    CPM AS      : sip:172.22.0.52:5060  (Converged IP Messaging)
+
+  All added iFC use DefaultHandling 0 (SESSION_CONTINUED) so an AS being down
+  does not drop the request. Priorities 21/22/23 are chosen to avoid every
+  priority present in default_ifc.xml (10, 11, 20, 25, 30, 40).
+
+  *** REVIEW BEFORE APPLYING - see report handed back with this file. ***
+-->
+<IMSSubscription>
+    <PrivateID>{{ iFC_vars['imsi'] }}@ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</PrivateID>
+    <ServiceProfile>
+        <PublicIdentity>
+            <Identity>sip:{{ iFC_vars['msisdn'] }}@ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</Identity>
+            <Extension>
+                <IdentityType>0</IdentityType>
+                <Extension>
+                    <AliasIdentityGroupID>1</AliasIdentityGroupID>
+                </Extension>
+            </Extension>
+        </PublicIdentity>
+        <PublicIdentity>
+            <Identity>tel:{{ iFC_vars['msisdn'] }}</Identity>
+            <Extension>
+                <IdentityType>0</IdentityType>
+                <Extension>
+                    <AliasIdentityGroupID>1</AliasIdentityGroupID>
+                </Extension>
+            </Extension>
+        </PublicIdentity>
+        <PublicIdentity>
+            <Identity>sip:{{ iFC_vars['imsi'] }}@ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</Identity>
+            <Extension>
+                <IdentityType>0</IdentityType>
+            </Extension>
+        </PublicIdentity>
+
+
+        <!-- Copy SIP REGISTER towards Application Server -->
+        <!-- <InitialFilterCriteria>
+            <Priority>10</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>REGISTER</Method>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:applicationserver.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+                <Extension>
+                    <IncludeRegisterRequest/>
+                    <IncludeRegisterResponse/>
+                </Extension>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+        <!-- Copy SIP REGISTER towards SMSc -->
+        <!-- <InitialFilterCriteria>
+            <Priority>11</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>REGISTER</Method>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:smsc.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:7090</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+                <Extension>
+                    <IncludeRegisterRequest/>
+                    <IncludeRegisterResponse/>
+                </Extension>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+
+        <!-- SIP MESSAGE Traffic -->
+        <InitialFilterCriteria>
+            <Priority>20</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>MESSAGE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>1</ConditionNegated>
+                    <Group>1</Group>
+                    <SIPHeader>
+                        <Header>Server</Header>
+                    </SIPHeader>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>2</Group>
+                    <SessionCase>0</SessionCase>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:smsc.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria>
+
+        <!-- SIP USSD Traffic to USSD-GW-->
+        <!-- <InitialFilterCriteria>
+            <Priority>25</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>1</Group>
+                    <SIPHeader>
+                      <Header>Recv-Info</Header>
+                      <Content>"g.3gpp.ussd"</Content>
+                    </SIPHeader>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:ussd.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+        <!-- SIP INVITE Traffic from Registered Sub-->
+        <!-- <InitialFilterCriteria>
+            <Priority>30</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>INVITE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <Group>0</Group>
+                    <SessionCase>0</SessionCase>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:applicationserver.ims.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+
+        <!-- SIP INVITE Traffic for calls to Unregistered Sub (TERMINATING_UNREGISTERED) -->
+        <!-- <InitialFilterCriteria>
+            <Priority>40</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>INVITE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <Group>0</Group>
+                    <SessionCase>2</SessionCase>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:voicemail.mnc{{ iFC_vars['mnc'] }}.mcc{{ iFC_vars['mcc'] }}.3gppnetwork.org:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria> -->
+
+
+        <!-- ================================================================= -->
+        <!-- RCS traffic routing (OpenRCS) - ADDED, review before use.         -->
+        <!-- ================================================================= -->
+
+        <!--
+          RCS Presence : route presence signalling to the Presence AS.
+          DefaultHandling 0 (SESSION_CONTINUED): presence being down must not
+          break basic IMS service.
+
+          TriggerPoint uses DNF (ConditionTypeCNF=0): SPTs sharing a Group are
+          ANDed, different Groups are ORed. The trigger therefore fires on:
+              (SUBSCRIBE AND Event: presence)     [Group 0]
+            OR PUBLISH                            [Group 1]
+            OR OPTIONS                            [Group 2]
+
+          The Event "presence" content match is a regex (3GPP TS 29.228), so it
+          also covers "presence.winfo" watcher-info subscriptions.
+        -->
+        <InitialFilterCriteria>
+            <Priority>21</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>0</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>SUBSCRIBE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <SIPHeader>
+                        <Header>Event</Header>
+                        <Content>presence</Content>
+                    </SIPHeader>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>1</Group>
+                    <Method>PUBLISH</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>2</Group>
+                    <Method>OPTIONS</Method>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:172.22.0.99:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria>
+
+        <!--
+          RCS CPM pager-mode messaging : route SIP MESSAGE to the CPM AS.
+          DefaultHandling 0 (SESSION_CONTINUED).
+
+          NOTE for reviewer: this trigger is UNCONDITIONAL on MESSAGE (as
+          requested for the lab). The existing Priority 20 iFC above already
+          routes originating MESSAGE to the SMSc AS. With SESSION_CONTINUED an
+          originating SMS-over-IP MESSAGE will therefore chain through BOTH the
+          SMSc AS and this CPM AS. If that double-routing is unwanted, add an
+          Accept-Contact SPT here matching the CPM pager ICSI, e.g. Content
+          .*urn%3Aurn-7%3A3gpp-service.ims.icsi.oma.cpm.msg.* , to restrict this
+          trigger to genuine CPM Standalone Messaging.
+        -->
+        <InitialFilterCriteria>
+            <Priority>22</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>MESSAGE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>1</Group>
+                    <SIPHeader>
+                        <Header>Accept-Contact</Header>
+                        <Content>.*urn%3Aurn-7%3A3gpp-service\.ims\.icsi\.oma\.cpm.*</Content>
+                    </SIPHeader>
+                    <Extension></Extension>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:172.22.0.52:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria>
+
+        <!--
+          RCS CPM session (Chat / Group Chat) : route SIP INVITE to the CPM AS
+          ONLY when the CPM ICSI is present, so VoNR / MMTel voice INVITEs are
+          NEVER diverted here.
+
+          SAFETY: TriggerPoint uses CNF (ConditionTypeCNF=1): SPTs sharing a
+          Group are ORed, different Groups are ANDed. Both SPTs are in Group 0
+          via separate groups ANDed -> here Group 0 (INVITE) AND Group 1
+          (Accept-Contact contains CPM ICSI). BOTH must hold:
+              INVITE  AND  Accept-Contact matches the CPM ICSI regex
+
+          The Accept-Contact SPT Content is a regex (3GPP TS 29.228) matching
+          the escaped +g.3gpp.icsi-ref value for the CPM service. It matches the
+          "oma.cpm" ICSI family (cpm.session / cpm.largemsg, both carried on
+          CPM INVITEs per the CPM design). A plain VoNR/MMTel INVITE carries the
+          MMTel ICSI (urn:urn-7:3gpp-service.ims.icsi.mmtel), which does NOT
+          match "oma.cpm", so voice calls cannot trigger this AS.
+        -->
+        <InitialFilterCriteria>
+            <Priority>23</Priority>
+            <TriggerPoint>
+                <ConditionTypeCNF>1</ConditionTypeCNF>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>0</Group>
+                    <Method>INVITE</Method>
+                    <Extension></Extension>
+                </SPT>
+                <SPT>
+                    <ConditionNegated>0</ConditionNegated>
+                    <Group>1</Group>
+                    <SIPHeader>
+                        <Header>Accept-Contact</Header>
+                        <Content>.*urn%3Aurn-7%3A3gpp-service\.ims\.icsi\.oma\.cpm.*</Content>
+                    </SIPHeader>
+                </SPT>
+            </TriggerPoint>
+            <ApplicationServer>
+                <ServerName>sip:172.22.0.52:5060</ServerName>
+                <DefaultHandling>0</DefaultHandling>
+            </ApplicationServer>
+        </InitialFilterCriteria>
+
+
+    </ServiceProfile>
+</IMSSubscription>
