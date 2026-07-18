@@ -54,6 +54,11 @@ sed -i 's|PUB_3GPP_DOMAIN|'$PUB_3GPP_DOMAIN'|g' /etc/bind/pub_3gpp_zone
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/pub_3gpp_zone
 sed -i 's|ENTITLEMENT_SERVER_IP|'$ENTITLEMENT_SERVER_IP'|g' /etc/bind/pub_3gpp_zone
 sed -i 's|DOCKER_HOST_IP|'$DOCKER_HOST_IP'|g' /etc/bind/pub_3gpp_zone
+sed -i 's|ACS_IP|'$ACS_IP'|g' /etc/bind/pub_3gpp_zone
+sed -i 's|FT_HTTP_IP|'$FT_HTTP_IP'|g' /etc/bind/pub_3gpp_zone
+sed -i 's|PRESENCE_IP|'$PRESENCE_IP'|g' /etc/bind/pub_3gpp_zone
+sed -i 's|CPM_IP|'$CPM_IP'|g' /etc/bind/pub_3gpp_zone
+sed -i 's|KDS_IP|'$KDS_IP'|g' /etc/bind/pub_3gpp_zone
 
 sed -i 's|IMS_DOMAIN|'$IMS_DOMAIN'|g' /etc/bind/e164.arpa
 sed -i 's|DNS_IP|'$DNS_IP'|g' /etc/bind/e164.arpa

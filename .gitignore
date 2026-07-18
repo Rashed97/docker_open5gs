@@ -10,3 +10,6 @@ log/
 .dolt/
 *.db
 .beads-credential-key
+
+# OpenRCS deployment CA state (private keys) — never commit
+openrcs/pki/

@@ -13,3 +13,10 @@ pubns                   1D IN A         DNS_IP
 aes                     1D IN A         ENTITLEMENT_SERVER_IP
 
 epdg.epc                1D IN A         DOCKER_HOST_IP
+
+; OpenRCS endpoints (aes already defined above -> entitlement/TS.43)
+config.rcs              1D IN A         ACS_IP
+ft.rcs                  1D IN A         FT_HTTP_IP
+xcap.rcs                1D IN A         PRESENCE_IP
+cpm.rcs                 1D IN A         CPM_IP
+kds.rcs                 1D IN A         KDS_IP
