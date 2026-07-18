@@ -1,0 +1,159 @@
+{'_id': ObjectId('671220ef14fbd6125b9b8daf'), 'schema_version': 1, 'imsi': '001010000116332', 'msisdn': [], 'imeisv': '3589516147455220', 'mme_host': 'mme.epc.mnc001.mcc001.3gppnetwork.org', 'mm_realm': [], 'purge_flag': False, 'slice': [
+        {'_id': ObjectId('671220ef14fbd6125b9b8db1'), 'sst': 1, 'default_indicator': True, 'session': [
+                {
+                    'qos': {
+                        'arp': {
+                            'priority_level': 8,
+                            'pre_emption_capability': 1,
+                            'pre_emption_vulnerability': 1
+                        },
+                        'index': 9
+                    },
+                    'ambr': {
+                        'downlink': {
+                            'value': 1000000000,
+                            'unit': 0
+                        },
+                        'uplink': {
+                            'value': 1000000000,
+                            'unit': 0
+                        }
+                    },
+                    '_id': ObjectId('671220ef14fbd6125b9b8db0'),
+                    'name': 'internet',
+                    'type': 3,
+                    'pcc_rule': []
+                },
+                {
+                    'qos': {
+                        'arp': {
+                            'priority_level': 1,
+                            'pre_emption_capability': 1,
+                            'pre_emption_vulnerability': 1
+                        },
+                        'index': 5
+                    },
+                    'ambr': {
+                        'downlink': {
+                            'value': 1,
+                            'unit': 3
+                        },
+                        'uplink': {
+                            'value': 1,
+                            'unit': 3
+                        }
+                    },
+                    '_id': ObjectId('6712225679a7ce0017f86bdd'),
+                    'name': 'ims',
+                    'type': 3,
+                    'pcc_rule': [
+                        {
+                            'qos': {
+                                'arp': {
+                                    'priority_level': 2,
+                                    'pre_emption_capability': 2,
+                                    'pre_emption_vulnerability': 2
+                                },
+                                'mbr': {
+                                    'downlink': {
+                                        'unit': 1
+                                    },
+                                    'uplink': {
+                                        'unit': 1
+                                    }
+                                },
+                                'gbr': {
+                                    'downlink': {
+                                        'unit': 1
+                                    },
+                                    'uplink': {
+                                        'unit': 1
+                                    }
+                                },
+                                'index': 1
+                            }, '_id': ObjectId('6712225679a7ce0017f86bde'),
+                            'flow': []
+                        },
+                        {
+                            'qos': {
+                                'arp': {
+                                    'priority_level': 4,
+                                    'pre_emption_capability': 2,
+                                    'pre_emption_vulnerability': 2
+                                },
+                                'mbr': {
+                                    'downlink': {
+                                        'unit': 1
+                                    },
+                                    'uplink': {
+                                        'unit': 1
+                                    }
+                                },
+                                'gbr': {
+                                    'downlink': {
+                                        'unit': 1
+                                    },
+                                    'uplink': {
+                                        'unit': 1
+                                    }
+                                },
+                                'index': 2
+                            },
+                            '_id': ObjectId('6712225679a7ce0017f86bdf'),
+                            'flow': []
+                        }
+                    ]
+                }
+            ]
+        }
+    ], 'security': {'k': 'D79F9B3430124778B25BCCBC6CED8C8F', 'op': None, 'opc': '34077031C9AF38D7ECB6FD6AC4B1BCFB', 'amf': '8000', 'sqn': 992
+    }, 'ambr': {'downlink': {'value': 1000000000, 'unit': 0
+        }, 'uplink': {'value': 1000000000, 'unit': 0
+        }
+    }, 'access_restriction_data': 32, 'network_access_mode': 0, 'subscriber_status': 0, 'operator_determined_barring': 0, 'subscribed_rau_tau_timer': 12, '__v': 0.0, 'mme_realm': 'epc.mnc001.mcc001.3gppnetwork.org', 'mme_timestamp': 1732222265066640
+}
+{'_id': ObjectId('671220ef14fbd6125b9b8daf'), 'schema_version': 1, 'imsi': '001010000116332', 'msisdn': [], 'imeisv': '3589516147455220', 'mme_host': 'mme.epc.mnc001.mcc001.3gppnetwork.org', 'mm_realm': [], 'purge_flag': False, 'slice': [
+        {'_id': ObjectId('671220ef14fbd6125b9b8db1'), 'sst': 1, 'default_indicator': True, 'session': [
+                {'qos': {'arp': {'priority_level': 8, 'pre_emption_capability': 1, 'pre_emption_vulnerability': 1
+                        }, 'index': 9
+                    }, 'ambr': {'downlink': {'value': 1000000000, 'unit': 0
+                        }, 'uplink': {'value': 1000000000, 'unit': 0
+                        }
+                    }, '_id': ObjectId('671220ef14fbd6125b9b8db0'), 'name': 'internet', 'type': 3, 'pcc_rule': []
+                },
+                {'qos': {'arp': {'priority_level': 1, 'pre_emption_capability': 1, 'pre_emption_vulnerability': 1
+                        }, 'index': 5
+                    }, 'ambr': {'downlink': {'value': 1, 'unit': 3
+                        }, 'uplink': {'value': 1, 'unit': 3
+                        }
+                    }, '_id': ObjectId('6712225679a7ce0017f86bdd'), 'name': 'ims', 'type': 3, 'pcc_rule': [
+                        {'qos': {'arp': {'priority_level': 2, 'pre_emption_capability': 2, 'pre_emption_vulnerability': 2
+                                }, 'mbr': {'downlink': {'unit': 1
+                                    }, 'uplink': {'unit': 1
+                                    }
+                                }, 'gbr': {'downlink': {'unit': 1
+                                    }, 'uplink': {'unit': 1
+                                    }
+                                }, 'index': 1
+                            }, '_id': ObjectId('6712225679a7ce0017f86bde'), 'flow': []
+                        },
+                        {'qos': {'arp': {'priority_level': 4, 'pre_emption_capability': 2, 'pre_emption_vulnerability': 2
+                                }, 'mbr': {'downlink': {'unit': 1
+                                    }, 'uplink': {'unit': 1
+                                    }
+                                }, 'gbr': {'downlink': {'unit': 1
+                                    }, 'uplink': {'unit': 1
+                                    }
+                                }, 'index': 2
+                            }, '_id': ObjectId('6712225679a7ce0017f86bdf'), 'flow': []
+                        }
+                    ]
+                }
+            ]
+        }
+    ], 'security': {'k': 'D79F9B3430124778B25BCCBC6CED8C8F', 'op': None, 'opc': '34077031C9AF38D7ECB6FD6AC4B1BCFB', 'amf': '8000', 'sqn': 992
+    }, 'ambr': {'downlink': {'value': 1000000000, 'unit': 0
+        }, 'uplink': {'value': 1000000000, 'unit': 0
+        }
+    }, 'access_restriction_data': 32, 'network_access_mode': 0, 'subscriber_status': 0, 'operator_determined_barring': 0, 'subscribed_rau_tau_timer': 12, '__v': 0.0, 'mme_realm': 'epc.mnc001.mcc001.3gppnetwork.org', 'mme_timestamp': 1732222265066640
+}

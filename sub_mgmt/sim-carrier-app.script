@@ -1,0 +1,8 @@
+set echo true
+
+select ADF.ARA-M
+aram_store_ref_ar_do --aid FFFFFFFFFFFF --device-app-id 1a1d8777a0810ae2707745176cdfdcd87724fc5f --android-permissions 0000000000000001 --apdu-always
+aram_get_all
+
+quit
+quit
