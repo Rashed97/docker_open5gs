@@ -150,17 +150,21 @@ def add_to_open5gs(mongodb_address, imsi, ki, opc):
                                 },
                                 "mbr": {
                                     "downlink": {
+                                        "value": 64,
                                         "unit": 1
                                     },
                                     "uplink": {
+                                        "value": 64,
                                         "unit": 1
                                     }
                                 },
                                 "gbr": {
                                     "downlink": {
+                                        "value": 44,
                                         "unit": 1
                                     },
                                     "uplink": {
+                                        "value": 44,
                                         "unit": 1
                                     }
                                 }
@@ -177,17 +181,21 @@ def add_to_open5gs(mongodb_address, imsi, ki, opc):
                                 },
                                 "mbr": {
                                     "downlink": {
+                                        "value": 2048,
                                         "unit": 1
                                     },
                                     "uplink": {
+                                        "value": 2048,
                                         "unit": 1
                                     }
                                 },
                                 "gbr": {
                                     "downlink": {
+                                        "value": 512,
                                         "unit": 1
                                     },
                                     "uplink": {
+                                        "value": 512,
                                         "unit": 1
                                     }
                                 }
